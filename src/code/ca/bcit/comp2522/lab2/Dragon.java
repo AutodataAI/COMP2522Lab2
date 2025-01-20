@@ -73,7 +73,7 @@ public class Dragon extends Creature
                 .append("\n\tName: ")
                 .append(this.getName())
                 .append("\n\tDate of Birth: ")
-                .append(this.getDateOfBirth())
+                .append(this.getDateOfBirth().getYyyyMmDd())
                 .append("\n\tAge: ")
                 .append(this.getAgeYears())
                 .append("\n\tHealth: ")

@@ -226,17 +226,15 @@ public class Creature {
 
         details = new StringBuilder();
 
-        details.append("Name: ");
-        details.append(this.getName());
-        details.append("\n");
-        details.append("Date of birth: ");
-        details.append(this.getDateOfBirth());
-        details.append("\n");
-        details.append("Age: ");
-        details.append(this.getAgeYears());
-        details.append("\n");
-        details.append("Health: ");
-        details.append(this.getHealth());
+        details.append("Creture Details: ")
+                .append("\n\tName: ")
+                .append(this.getName())
+                .append("\n\tDate of Birth: ")
+                .append(this.getDateOfBirth().getYyyyMmDd())
+                .append("\n\tAge: ")
+                .append(this.getAgeYears())
+                .append("\n\tHealth: ")
+                .append(this.getHealth());
 
         System.out.println(details.toString());
     }
