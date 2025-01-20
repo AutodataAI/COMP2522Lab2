@@ -14,27 +14,41 @@ package ca.bcit.comp2522.lab2;
 public class Creature {
 
     private static final int DEAD_HEALTH_LEVEL = 0;
-    private static final int CURRENT_YEAR = 2025;
-    private static final int CURRENT_MONTH = 1;
-    private static final int CURRENT_DAY = 19;
+    private static final int MIN_ALIVE_HEALTH = 1;
+    private static final int MAX_HEALTH = 100;
+    private static final int SAME_DATE = 0;
+    private static final Date CURRENT_DATE;
+
+    //TODO: ask jason if a static initializer block should be used here
+    static
+    {
+        CURRENT_DATE = new Date(2025, 1, 19);
+    }
+
 
     private final String name;
     private final Date dateOfBirth;
     private int health;
 
+    //TODO: ask jason if the parameter limits in javadoc should be in the param lines, the main text block, or both
     /**
-     * Constructor of Creature.
-     * 
-     * @param String name name of creature
-     * @param Date   date of birth of creature
-     * @param health starting health of creature
-     * @throws IllegalArgumentException if parameter is invalid
+     * Constructs a Creature using a name, date of birth, and health value.
+     *
+     * <p>
+     * Given name must be not null nor blank
+     * Given health value must be between MIN_ALIVE_HEALTH and MAX_HEALTH
+     * </p>
+     *
+     * @param name the name of the creature (not null or blank)
+     * @param dateOfBirth the birthdate of the creature
+     * @param health the starting health of the creature (between MIN_ALIVE_HEALTH and MAX_HEALTH)
      */
     public Creature(final String name, final Date dateOfBirth, // validity has been checked in Date constructor already
             final int health) {
-        if (name == null || name == "" || health > 100 || health < 1) {
-            throw new IllegalArgumentException("Inputted paramters are invalid.");
-        }
+
+        validateName(name);
+        validateHealth(health);
+        validateDate();
 
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -43,9 +57,63 @@ public class Creature {
     }
 
     /**
-     * Check if alive.
+     * Validates if the given name is not null and not blank,
+     * if it is null/blank throws an exception.
+     *
+     * @param name the name to check
+     */
+    private void validateName(final String name) {
+        if (name == null || name.isBlank())
+        {
+            throw new IllegalArgumentException("Given name is null or empty.");
+        }
+    }
+
+    /**
+     * Validates if the given health value is between
+     * MIN_ALIVE_HEALTH and MAX_HEAlTH, if not between them
+     * throws an exception.
+     *
+     * @param health the health value to check.
+     */
+    private void validateHealth(final int health)
+    {
+        if (health < MIN_ALIVE_HEALTH || health > MAX_HEALTH)
+        {
+            StringBuilder invalidHealthMsg;
+            invalidHealthMsg = new StringBuilder();
+
+            invalidHealthMsg.append("Invalid health given. Expected: " );
+            invalidHealthMsg.append(MIN_ALIVE_HEALTH);
+            invalidHealthMsg.append(" to ");
+            invalidHealthMsg.append(MAX_HEALTH);
+            invalidHealthMsg.append(". Got: ");
+            invalidHealthMsg.append(health);
+            throw new IllegalArgumentException(invalidHealthMsg.toString());
+        }
+    }
+
+    /**
+     * Validates if the given date of birth is earlier than CURRENT_DATE chronologically
+     * throws an exception if it later.
+     *
+     * @param dateOfBirth the date of birth to check
+     */
+    private void validateDateOfBirth(final Date dateOfBirth)
+    {
+        if(CURRENT_DATE.compareTo(dateOfBirth) < SAME_DATE)
+        {
+            throw new IllegalArgumentException("Given date of birth (" +
+                                               dateOfBirth.getYyyyMmDd() +
+                                               ") is later than the current date: " +
+                                               CURRENT_DATE.getYyyyMmDd());
+        }
+    }
+
+    /**
+     * Check if the creature is alive (health > DEAD_HEALTH_LEVEL)
      * 
-     * @return boolean true when alive
+     * @return boolean true if the creature is alive
      */
     public boolean isAlive() {
         return health > DEAD_HEALTH_LEVEL;

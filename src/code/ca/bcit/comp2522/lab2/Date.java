@@ -95,6 +95,8 @@ public class Date {
     private static final int YEAR_TWO_THOUSAND = 2000;
     private static final int YEAR_TWO_THOUSAND_NINETY_NINE = 2099;
 
+    private static final int NO_DIFFERENCE              = 0;
+
     private final int year;
     private final int month;
     private final int day;
@@ -355,5 +357,40 @@ public class Date {
                 (year % FOUR_HUNDRED == CHECK_IF_EVEN);
 
         return isLeapYear;
+    }
+
+    /**
+     * Compares this date with the specified date to determine their relative order.
+     * Errors if the given date is null
+     *
+     * <p>
+     * returns the difference between the calling date's year and the given date's year
+     * or the difference in months if they are the same year
+     * or the difference in days if they are the same month
+     * </p>
+     *
+     * @param dateToCompare the Date object to compare this date against
+     * @return a negative int (if the given date is later than this date), positive int (if the given date is earlier than this date), or zero (if they are the same date)
+     */
+    public int compareTo(Date dateToCompare)
+    {
+        if (dateToCompare == null) {
+            throw new IllegalArgumentException("dateToCompare is null");
+        }
+
+        int comparison;
+
+        comparison = this.year - dateToCompare.getYear();
+
+        if(comparison == NO_DIFFERENCE)
+        {
+            comparison = this.month - dateToCompare.getMonth();
+            if(comparison == NO_DIFFERENCE)
+            {
+                comparison = this.day - dateToCompare.getDay();
+            }
+        }
+
+        return comparison;
     }
 }
