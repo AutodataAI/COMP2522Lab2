@@ -16,7 +16,13 @@ public class Creature {
     private static final int DEAD_HEALTH_LEVEL = 0;
     private static final int MIN_ALIVE_HEALTH = 1;
     private static final int MAX_HEALTH = 100;
+
+    private static final int NOTHING = 0;
+
     private static final int SAME_DATE = 0;
+
+    private static final int BEFORE_ACTUAL_BIRTHDAY_OFFSET = -1;
+
     private static final Date CURRENT_DATE;
 
     //TODO: ask jason if a static initializer block should be used here
@@ -25,9 +31,8 @@ public class Creature {
         CURRENT_DATE = new Date(2025, 1, 19);
     }
 
-
     private final String name;
-    private final Date dateOfBirth;
+    private final Date   dateOfBirth;
     private int health;
 
     //TODO: ask jason if the parameter limits in javadoc should be in the param lines, the main text block, or both
@@ -48,7 +53,7 @@ public class Creature {
 
         validateName(name);
         validateHealth(health);
-        validateDate();
+        validateDateOfBirth(dateOfBirth);
 
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -111,6 +116,47 @@ public class Creature {
     }
 
     /**
+     * Returns the name of the person.
+     *
+     * @return the name of the person as a String
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the date of birth of the person.
+     *
+     * @return the date of birth as a {@link Date} object
+     */
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    /**
+     * Returns the health status of the person.
+     *
+     * @return the health status as an integer value
+     */
+    public int getHealth() {
+        return health;
+    }
+
+    /**
+     * Sets the health to the specified value.
+     *
+     * @param health the value to set health to
+     */
+    public void setHealth(final int health)
+    {
+        if (health != DEAD_HEALTH_LEVEL)
+        {
+            validateHealth(health);
+        }
+        this.health = health;
+    }
+
+    /**
      * Check if the creature is alive (health > DEAD_HEALTH_LEVEL)
      * 
      * @return boolean true if the creature is alive
@@ -120,81 +166,78 @@ public class Creature {
     }
 
     /**
-     * Unchecked Damage Exception
-     */
-    class DamageException extends RuntimeException {
-        DamageException(String message) {
-            super(message);
-        }
-    }
-
-    /**
-     * Adjust creature's health when it takes damage.
+     * Adjust creature's health by the given damage value.
      * 
-     * @param damage taken
+     * @param damage the damage taken
      */
     public void takeDamage(final int damage) {
 
-        if (damage < 0) {
+        if (damage < NOTHING) {
             throw new DamageException("Damage cannot be negative.");
         }
 
         health = health - damage;
-        if (health < 0) {
-            health = 0;
-        }
-    }
-
-    /**
-     * Unchecked healing Exception
-     */
-    class HealingException extends RuntimeException {
-        HealingException(String message) {
-            super(message);
+        if (health < DEAD_HEALTH_LEVEL) {
+            health = DEAD_HEALTH_LEVEL;
         }
     }
 
     /**
      * Adjust creature's health when it is healed.
      * 
-     * @param heal received
+     * @param healAmount the health received
      */
     public void heal(final int healAmount) {
 
-        if (healAmount < 0) {
+        if (healAmount < NOTHING) {
             throw new HealingException("Healing cannot be negative.");
         }
 
         health = health + healAmount;
-        if (health > 100) {
-            health = 100;
+        if (health > MAX_HEALTH) {
+            health = MAX_HEALTH;
         }
     }
 
+    //TODO: ask jason about having multiple returns in a function
     /**
-     * Calculate creature's age in years based on date of birth.
-     * @return int cretaure's age in year
+     * Calculate the creature's age in years based on date of birth.
+     * @return the creature's age in years as an int
      */
     public int getAgeYears() {
-        int result;
-        result = CURRENT_YEAR - dateOfBirth.getYear() - 1;
-        if (CURRENT_MONTH > dateOfBirth.getMonth()) {
-            return result + 1;
+        final int result;
+        result = CURRENT_DATE.getYear() - dateOfBirth.getYear();
+        if (CURRENT_DATE.getMonth() < dateOfBirth.getMonth()) {
+            return result + BEFORE_ACTUAL_BIRTHDAY_OFFSET;
         }
-        if (CURRENT_MONTH == dateOfBirth.getMonth()) {
-            if (CURRENT_DAY >= dateOfBirth.getDay()) {
-                return result + 1;
+        if (CURRENT_DATE.getMonth() == dateOfBirth.getMonth()) {
+            if (CURRENT_DATE.getDay() < dateOfBirth.getDay()) {
+                return result + BEFORE_ACTUAL_BIRTHDAY_OFFSET;
             }
         }
         return result;
     }
     
     /**
-     * Print details of creature.*/
+     * Prints details of the creature to the console.
+     */
     public void getDetails() {
-        System.out.println(name + ", " + 
-                            dateOfBirth.getYyyyMmDd() + ", " + 
-                            getAgeYears() + ", " + 
-                            health);
+        StringBuilder details;
+
+        details = new StringBuilder();
+
+        details.append("Name: ");
+        details.append(this.getName());
+        details.append("\n");
+        details.append("Date of birth: ");
+        details.append(this.getDateOfBirth());
+        details.append("\n");
+        details.append("Age: ");
+        details.append(this.getAgeYears());
+        details.append("\n");
+        details.append("Health: ");
+        details.append(this.getHealth());
+
+        System.out.println(details.toString());
     }
 }

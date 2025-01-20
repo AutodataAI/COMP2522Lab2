@@ -59,7 +59,7 @@ class Orc extends Creature
         details.append(this.getDateOfBirth());
         details.append("\n");
         details.append("Age: ");
-        details.append(this.getAge());
+        details.append(this.getAgeYears());
         details.append("\n");
         details.append("Health: ");
         details.append(this.getHealth());
@@ -67,7 +67,7 @@ class Orc extends Creature
         details.append("Rage: ");
         details.append(this.getRage());
 
-
+        System.out.println(details.toString());
     };
 
     //TODO:throw exception on rage < 5
