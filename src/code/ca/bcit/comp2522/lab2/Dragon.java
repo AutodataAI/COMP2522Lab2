@@ -13,8 +13,6 @@ package ca.bcit.comp2522.lab2;
  */
 public class Dragon extends Creature
 {
-
-    private static final int HEALTH_MIN = 0;
     private static final int FIRE_POWER_MIN = 0;
     private static final int LOW_FIRE_POWER = 10;
     private static final int FIRE_POWER_DECREMENT = 10;
@@ -22,6 +20,7 @@ public class Dragon extends Creature
     private static final int MIN_FIRE_POWER_AMOUNT = 0;
     private static final int MAX_FIRE_POWER_AMOUNT = 100;
 
+    //TODO: make getter and setter? for firepower
     private int firePower;
 
     /**
@@ -37,39 +36,22 @@ public class Dragon extends Creature
                   int health,
                   int firePower)
     {
-        validateHealth();
-        validateFirePower();
+        super(name, dateOfBirth, health);
 
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.health = health;
+        validateFirePower(firePower);
+
+
         this.firePower = firePower;
     }
 
-    /*
-    Validation method for health. Ensures
-    health isn't below zero.
-    @throw IllegalArgumentException if health is below zero.
+    /**
+     * Validation method for firepower. Ensures firepower
+     * isn't below 0 and isn't above 100.
      */
-    private final void validateHealth()
+    private void validateFirePower(final int firePower)
     {
-        if(this.health <= HEALTH_MIN)
-        {
-            throw new IllegalArgumentException("Invalid " +
-                    "health: " + health);
-        }
-    }
-
-    /*
-    Validation method for firepower. Ensures firepower
-     isn't below 0 and isn't above 100.
-    @throw IllegalArgumentException if firepower is
-    out of required range.
-     */
-    private final void validateFirePower()
-    {
-        if(this.firePower <= FIRE_POWER_MIN ||
-                this.firePower >= MAX_FIRE_POWER_AMOUNT)
+        if(firePower <= FIRE_POWER_MIN ||
+                firePower >= MAX_FIRE_POWER_AMOUNT)
         {
             throw new IllegalArgumentException("Invalid " +
                     "fire power: " + firePower);
@@ -80,31 +62,32 @@ public class Dragon extends Creature
      * Concatenates a string of all the details of the Dragon.
      * Overrides the getDetails method for creature and
      * adds details about the firepower level.
-     *
-     * @param dragon the dragon to return details about.
-     * @return string concatenation of details.
      */
     @Override
-    public final String getDetails(Dragon dragon)
+    public final void getDetails()
     {
         StringBuilder sb;
         sb = new StringBuilder();
 
         sb.append("Dragon Details: ")
                 .append("\n\tName: ")
-                .append(this.name)
+                .append(this.getName())
                 .append("\n\tDate of Birth: ")
-                .append(this.dateOfBirth)
+                .append(this.getDateOfBirth())
                 .append("\n\tAge: ")
-                .append(this.age)
+                .append(this.getAgeYears())
                 .append("\n\tHealth: ")
-                .append(this.health)
+                .append(this.getHealth())
                 .append("\n\tFire Power: ")
                 .append(this.firePower);
 
-        return sb.toString();
+        System.out.println(sb.toString());
     }
 
+    /*
+     * TODO: ask jason if this function should take a target and call takeDamage in the function or return a
+     *  an int value to be used in the main function such as exElf.takeDamage(exDragon.breathFire())
+     */
     /**
      * Method for the dragon to breathe fire. Argument is
      * the creature to breathe the fire onto. Reduces
@@ -124,6 +107,8 @@ public class Dragon extends Creature
         target.takeDamage(DAMAGE_DECREMENT);
     }
 
+    //TODO: isn't this supposed add to the given firepower not set it?
+    //TODO: ask jason if firepower going above 100 is supposed to throw an error or just set it back to 100
     /**
      * Method to restore the firepower levels. Checks first if
      * Fire Power restoration amount is between 0 and 100, and
@@ -131,7 +116,6 @@ public class Dragon extends Creature
      * brings it over 100.
      *
      * @param amount the amount of firepower to restore.
-     * @throws IllegalArgumentException if amount to restore
      * isn't between 0 and 100.
      */
     public final void restoreFirePower(int amount)

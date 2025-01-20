@@ -45,6 +45,8 @@ class Orc extends Creature
         this.rage = rage;
     }
 
+    //TODO: ask jason if one should call the getter within the function or use the this. reference
+    //TODO: ask jason if one should use the this reference at all points one needs to access the instance varriables
     @Override
     public void getDetails()
     {
@@ -52,20 +54,16 @@ class Orc extends Creature
 
         details = new StringBuilder();
 
-        details.append("Name: ");
-        details.append(this.getName());
-        details.append("\n");
-        details.append("Date of birth: ");
-        details.append(this.getDateOfBirth());
-        details.append("\n");
-        details.append("Age: ");
-        details.append(this.getAgeYears());
-        details.append("\n");
-        details.append("Health: ");
-        details.append(this.getHealth());
-        details.append("\n");
-        details.append("Rage: ");
-        details.append(this.getRage());
+        details.append("\n\tName: ")
+            .append(this.getName())
+            .append("\n\tDate of Birth: ")
+            .append(this.getDateOfBirth())
+            .append("\n\tAge: ")
+            .append(this.getAgeYears())
+            .append("\n\tHealth: ")
+            .append(this.getHealth())
+            .append("\n\tRage: ")
+            .append(this.getRage());
 
         System.out.println(details.toString());
     };
