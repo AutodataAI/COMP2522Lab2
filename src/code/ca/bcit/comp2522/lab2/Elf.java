@@ -13,7 +13,6 @@ package ca.bcit.comp2522.lab2;
  */
 public class Elf extends Creature
 {
-    private static final int HEALTH_MIN = 0;
     private static final int MANA_MIN = 0;
     private static final int MANA_MAX = 50;
     private static final int DAMAGE_DECREMENT = 10;
@@ -29,39 +28,21 @@ public class Elf extends Creature
                int health,
                int mana)
     {
-        validateHealth();
-        validateMana();
-
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.health = health;
+        super(name, dateOfBirth, health);
+        validateMana(mana);
         this.mana = mana;
     }
 
-    /*
-   Validation method for health. Ensures
-   health isn't below zero.
-   @throw IllegalArgumentException if health is below zero.
-    */
-    private final void validateHealth()
-    {
-        if(this.health <= HEALTH_MIN)
-        {
-            throw new IllegalArgumentException("Invalid " +
-                    "health: " + health);
-        }
-    }
 
-    /*
-    Validation method for Mana. Ensures firepower
-     isn't below 0 and isn't above 50.
-    @throw IllegalArgumentException if Mana is
-    out of required range.
+    /**
+     * Validation method for Mana. Ensures firepower
+     * isn't below 0 and isn't above 50.
+     * out of required range.
      */
-    private final void validateMana()
+    private void validateMana(final int mana)
     {
-        if(this.mana <= MANA_MIN ||
-                this.mana >= MANA_MAX)
+        if(mana <= MANA_MIN ||
+                mana >= MANA_MAX)
         {
             throw new IllegalArgumentException("Invalid " +
                     "mana: " + mana);
@@ -72,29 +53,26 @@ public class Elf extends Creature
      * Concatenates a string of all the details of the Elf.
      * Overrides the getDetails method for creature and
      * adds details about the mana level.
-     *
-     * @param elf the dragon to return details about.
-     * @return string concatenation of details.
      */
     @Override
-    public final String getDetails(Elf elf)
+    public final void getDetails()
     {
         StringBuilder sb;
         sb = new StringBuilder();
 
         sb.append("Elf Details: ")
                 .append("\n\tName: ")
-                .append(this.name)
+                .append(this.getName())
                 .append("\n\tDate of Birth: ")
-                .append(this.dateOfBirth)
+                .append(this.getDateOfBirth())
                 .append("\n\tAge: ")
-                .append(this.age)
+                .append(this.getAgeYears())
                 .append("\n\tHealth: ")
-                .append(this.health)
+                .append(this.getHealth())
                 .append("\n\tMana: ")
                 .append(this.mana);
 
-        return sb.toString();
+        System.out.println(sb.toString());
     }
 
     /**
