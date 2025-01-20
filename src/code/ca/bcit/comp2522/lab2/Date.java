@@ -1,4 +1,4 @@
-
+package ca.bcit.comp2522.lab2;
 
 /**
  * Represents a Date object with year, month, and day fields.

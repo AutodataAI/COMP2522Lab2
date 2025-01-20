@@ -1,3 +1,4 @@
+package ca.bcit.comp2522.lab2;
 
 /**
  * Custom checked exception to throw when the Mana of 

@@ -1,3 +1,4 @@
+package ca.bcit.comp2522.lab2;
 
 /**
  * Class describing an Elf. Class extends the Creature

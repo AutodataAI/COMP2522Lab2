@@ -1,4 +1,4 @@
-
+package ca.bcit.comp2522.lab2;
 
 /**
  * Class describing a Dragon. Class extends the Creature
