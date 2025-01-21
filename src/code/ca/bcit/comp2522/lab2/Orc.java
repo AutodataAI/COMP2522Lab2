@@ -5,7 +5,9 @@ package ca.bcit.comp2522.lab2;
  * variable rage, and method beserk which deals increase rage by 5.
  * If rage is above 20, the orc deal 20 more damage
  *
+ * @author Liam Pickrell
  * @author Ryan Chu
+ * @author Ted Ip
  * @version 1.0
  */
 class Orc extends Creature
@@ -108,7 +110,7 @@ class Orc extends Creature
         System.out.println(details.toString());
     };
 
-    //TODO: finish funtion when I get back info on how to handle damage
+    //TODO: finish function when I get back info on how to handle damage
     /**
      * Deals BASE_DAMAGE damage.
      * Deals BASE_DAMAGE * BESERK_DAMAGE_MULTIPLIER if rage is above MIN_RAGE_FOR_MULTIPLIER

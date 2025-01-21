@@ -7,7 +7,10 @@ package ca.bcit.comp2522.lab2;
  * adjust health after healing is received
  * calculate creature's age
  * print creature's details.
- * @author Ted IP
+ *
+ * @author Ted Ip
+ * @author Liam Pickrell
+ * @author Ryan Chu
  * @version 1.0
  * */
 

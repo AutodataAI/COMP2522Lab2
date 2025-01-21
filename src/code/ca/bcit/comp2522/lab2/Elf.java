@@ -9,6 +9,8 @@ package ca.bcit.comp2522.lab2;
  * the Elf currently has.
  *
  * @author Liam Pickrell
+ * @author Ryan Chu
+ * @author Ted Ip
  * @version 1.0
  */
 public class Elf extends Creature
@@ -47,6 +49,28 @@ public class Elf extends Creature
             throw new IllegalArgumentException("Invalid " +
                     "mana: " + mana);
         }
+    }
+
+    /**
+     * Getter for mana.
+     *
+     * @return mana as an int.
+     */
+    public int getMana()
+    {
+        return mana;
+    }
+
+    /**
+     * Setter for Mana. First validates Mana before
+     * setting the new value.
+     *
+     * @param mana of the Elf as an int.
+     */
+    public void setMana(int mana)
+    {
+        validateMana(mana);
+        this.mana = mana;
     }
 
     /**

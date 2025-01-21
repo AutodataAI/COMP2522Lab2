@@ -9,6 +9,8 @@ package ca.bcit.comp2522.lab2;
  * the Dragon currently has.
  *
  * @author Liam Pickrell
+ * @author Ryan Chu
+ * @author Ted Ip
  * @version 1.0
  */
 public class Dragon extends Creature
@@ -20,7 +22,6 @@ public class Dragon extends Creature
     private static final int MIN_FIRE_POWER_AMOUNT = 0;
     private static final int MAX_FIRE_POWER_AMOUNT = 100;
 
-    //TODO: make getter and setter? for firepower
     private int firePower;
 
     /**
@@ -41,6 +42,28 @@ public class Dragon extends Creature
         validateFirePower(firePower);
 
 
+        this.firePower = firePower;
+    }
+
+    /**
+     * Getter for Fire Power
+     *
+     * @return the Fire Power of the Dragon as an int.
+     */
+    public int getFirePower()
+    {
+        return firePower;
+    }
+
+    /**
+     * Setter for Fire Power. First validates Fire Power
+     * first before setting it.
+     *
+     * @param firePower as an int.
+     */
+    public void setFirePower(int firePower)
+    {
+        validateFirePower(firePower);
         this.firePower = firePower;
     }
 
@@ -85,8 +108,10 @@ public class Dragon extends Creature
     }
 
     /*
-     * TODO: ask jason if this function should take a target and call takeDamage in the function or return a
-     *  an int value to be used in the main function such as exElf.takeDamage(exDragon.breathFire())
+     * TODO: ask jason if this function should take a target
+     *  and call takeDamage in the function or return
+     * an int value to be used in the main function
+     * such as exElf.takeDamage(exDragon.breathFire())
      */
     /**
      * Method for the dragon to breathe fire. Argument is
@@ -121,11 +146,13 @@ public class Dragon extends Creature
     public final void restoreFirePower(int amount)
     {
         if(amount <= MIN_FIRE_POWER_AMOUNT ||
-                amount >= MAX_FIRE_POWER_AMOUNT)
+           amount >= MAX_FIRE_POWER_AMOUNT)
         {
             throw new IllegalArgumentException("Fire Power " +
                     "Restoration amount needs to be " +
-                    "between 0 and 100: " + amount);
+                    "between " + MIN_FIRE_POWER_AMOUNT +
+                    "and " + MAX_FIRE_POWER_AMOUNT + "." +
+                    amount);
         }
 
         this.firePower += amount;
