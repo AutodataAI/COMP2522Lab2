@@ -111,11 +111,11 @@ public class Elf extends Creature
     public final void castSpell(Creature target)
             throws LowManaException
     {
-        if (this.mana < LOW_MANA) {
+        if (mana < LOW_MANA) {
             throw new LowManaException("Mana " +
                     "is too low to cast spell: " + mana);
         }
-        this.mana -= MANA_DECREMENT;
+        mana -= MANA_DECREMENT;
         target.takeDamage(DAMAGE_DECREMENT);
     }
 
@@ -139,11 +139,11 @@ public class Elf extends Creature
                     "between 0 and 50: " + amount);
         }
 
-        this.mana += amount;
+        mana += amount;
 
-        if (this.mana > MAX_MANA_AMOUNT)
+        if (mana > MAX_MANA_AMOUNT)
         {
-            this.mana = MAX_MANA_AMOUNT;
+            mana = MAX_MANA_AMOUNT;
         }
     }
 

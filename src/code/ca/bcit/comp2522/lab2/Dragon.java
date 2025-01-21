@@ -124,11 +124,11 @@ public class Dragon extends Creature
      */
     public final void beatheFire(Creature target)
             throws LowFirePowerException {
-        if (this.firePower < LOW_FIRE_POWER) {
+        if (firePower < LOW_FIRE_POWER) {
             throw new LowFirePowerException("Fire Power " +
                     "is too low to breathe fire: " + firePower);
         }
-        this.firePower -= FIRE_POWER_DECREMENT;
+        firePower -= FIRE_POWER_DECREMENT;
         target.takeDamage(DAMAGE_DECREMENT);
     }
 
@@ -155,11 +155,11 @@ public class Dragon extends Creature
                     amount);
         }
 
-        this.firePower += amount;
+        firePower += amount;
 
-        if (this.firePower > MAX_FIRE_POWER_AMOUNT)
+        if (firePower > MAX_FIRE_POWER_AMOUNT)
         {
-            this.firePower = MAX_FIRE_POWER_AMOUNT;
+            firePower = MAX_FIRE_POWER_AMOUNT;
         }
     }
 
