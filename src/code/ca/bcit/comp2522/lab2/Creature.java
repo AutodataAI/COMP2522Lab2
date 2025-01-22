@@ -49,10 +49,12 @@ public class Creature {
      *
      * @param name the name of the creature (not null or blank)
      * @param dateOfBirth the birthdate of the creature
-     * @param health the starting health of the creature (between MIN_ALIVE_HEALTH and MAX_HEALTH)
+     * @param health the starting health of the creature
+     *              (between MIN_ALIVE_HEALTH and MAX_HEALTH)
      */
-    public Creature(final String name, final Date dateOfBirth, // validity has been checked in Date constructor already
-            final int health) {
+    public Creature(final String name,
+                    final Date   dateOfBirth, // validity has been checked in Date constructor already
+                    final int    health) {
 
         validateName(name);
         validateHealth(health);
@@ -71,9 +73,11 @@ public class Creature {
      * @param name the name to check
      */
     private void validateName(final String name) {
-        if (name == null || name.isBlank())
+        if (name == null ||
+            name.isBlank())
         {
-            throw new IllegalArgumentException("Given name is null or empty.");
+            throw new IllegalArgumentException("Given " +
+                    "name is null or empty: " + name);
         }
     }
 
@@ -86,7 +90,8 @@ public class Creature {
      */
     private void validateHealth(final int health)
     {
-        if (health < MIN_ALIVE_HEALTH || health > MAX_HEALTH)
+        if (health < MIN_ALIVE_HEALTH ||
+            health > MAX_HEALTH)
         {
             StringBuilder invalidHealthMsg;
             invalidHealthMsg = new StringBuilder();
@@ -173,7 +178,8 @@ public class Creature {
      * 
      * @param damage the damage taken
      */
-    public void takeDamage(final int damage) {
+    public void takeDamage(final int damage)
+    {
 
         if (damage < NOTHING) {
             throw new DamageException("Damage cannot be negative.");
@@ -190,7 +196,8 @@ public class Creature {
      * 
      * @param healAmount the health received
      */
-    public void heal(final int healAmount) {
+    public void heal(final int healAmount)
+    {
 
         if (healAmount < NOTHING) {
             throw new HealingException("Healing cannot be negative.");
@@ -224,12 +231,13 @@ public class Creature {
     /**
      * Prints details of the creature to the console.
      */
-    public void getDetails() {
+    public void getDetails()
+    {
         StringBuilder details;
 
         details = new StringBuilder();
 
-        details.append("Creture Details: ")
+        details.append("Creature Details: ")
                 .append("\n\tName: ")
                 .append(this.getName())
                 .append("\n\tDate of Birth: ")

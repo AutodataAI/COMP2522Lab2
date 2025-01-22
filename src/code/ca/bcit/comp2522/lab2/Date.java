@@ -109,11 +109,15 @@ public class Date {
      * @param day   the day (1-31, based on month and leap year rules)
      * @throws IllegalArgumentException if the date is invalid
      */
-    public Date(final int year, final int month, final int day)
+    public Date(final int year,
+                final int month,
+                final int day)
     {
-        if (year < EARLIEST_BIRTH_YEAR || year > CURRENT_YEAR ||
-                month < MIN_MONTH || month > MAX_MONTH ||
-                !validateUserBirthDate(year, month, day))
+        if (year < EARLIEST_BIRTH_YEAR ||
+            year > CURRENT_YEAR        ||
+            month < MIN_MONTH          ||
+            month > MAX_MONTH          ||
+            !validateUserBirthDate(year, month, day))
         {
             throw new IllegalArgumentException("That date is not valid.");
         }
@@ -214,15 +218,22 @@ public class Date {
          */
 
         if ((date.getYear() >= YEAR_TWO_THOUSAND && date.getYear() <= YEAR_TWO_THOUSAND_NINETY_NINE) ||
-                (date.getYear() >= EARLIEST_BIRTH_YEAR && date.getYear() <= YEAR_EIGHTEEN_NINETY_NINE) ||
-                (date.getYear() >= YEAR_NINETEEN_HUNDRED && date.getYear() <= YEAR_NINETEEN_NINETY_NINE))
+            (date.getYear() >= EARLIEST_BIRTH_YEAR && date.getYear() <= YEAR_EIGHTEEN_NINETY_NINE)   ||
+            (date.getYear() >= YEAR_NINETEEN_HUNDRED && date.getYear() <= YEAR_NINETEEN_NINETY_NINE))
         {
             // Adjust year based on the century
-            if (date.getYear() >= YEAR_TWO_THOUSAND && date.getYear() <= YEAR_TWO_THOUSAND_NINETY_NINE) {
+            if (date.getYear() >= YEAR_TWO_THOUSAND &&
+                date.getYear() <= YEAR_TWO_THOUSAND_NINETY_NINE)
+            {
                 yearOffSet = YEAR_OFFSET_2000;
-            } else if (date.getYear() >= EARLIEST_BIRTH_YEAR && date.getYear() <= YEAR_EIGHTEEN_NINETY_NINE) {
+            }
+            else if (date.getYear() >= EARLIEST_BIRTH_YEAR &&
+                     date.getYear() <= YEAR_EIGHTEEN_NINETY_NINE)
+            {
                 yearOffSet = YEAR_OFFSET_1800;
-            } else {
+            }
+            else
+            {
                 yearOffSet = 0;
             }
 
@@ -316,7 +327,9 @@ public class Date {
      * @param day day the user inputs
      * @return boolean true if day is valid, false if day is not valid
      */
-    boolean validateUserBirthDate(final int year, final int month, final int day)
+    boolean validateUserBirthDate(final int year,
+                                  final int month,
+                                  final int day)
     {
         boolean result = false;
 
