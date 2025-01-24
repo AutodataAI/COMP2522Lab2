@@ -22,7 +22,7 @@ class Elf
     private static final int DAMAGE_DECREMENT = 10;
     private static final int MANA_DECREMENT   = 5;
 
-    public int mana;
+    private int mana;
 
     /**
      * Elf Constructor.
@@ -56,7 +56,7 @@ class Elf
      */
     private void validateMana(final int mana)
     {
-        if(mana <= MIN_MANA || mana >= MAX_MANA)
+        if(mana < MIN_MANA || mana > MAX_MANA)
         {
             throw new IllegalArgumentException("Invalid mana: " +
                                                mana +
@@ -72,7 +72,7 @@ class Elf
      *
      * @return mana as an int.
      */
-    public int getMana()
+    protected int getMana()
     {
         return mana;
     }
@@ -84,7 +84,7 @@ class Elf
      *
      * @param mana the mana to set as an int.
      */
-    public void setMana(final int mana)
+    protected void setMana(final int mana)
     {
         validateMana(mana);
         this.mana = mana;
@@ -96,7 +96,7 @@ class Elf
      * Details include the name, date of birth, age, health, and mana.
      */
     @Override
-    public void getDetails()
+    protected void getDetails()
     {
         StringBuilder sb;
         sb = new StringBuilder();
@@ -129,7 +129,7 @@ class Elf
      * @return the damage done
      * @throws LowManaException if mana is below MANA_DECREMENT.
      */
-    public int castSpell() throws
+    protected int castSpell() throws
                            LowManaException
     {
         if(mana < MANA_DECREMENT)
@@ -155,7 +155,7 @@ class Elf
      * @throws IllegalArgumentException if amount
      *                                  isn't above MIN_MANA.
      */
-    public void restoreMana(int amount)
+    protected void restoreMana(int amount)
     {
         if(amount < MIN_MANA)
         {

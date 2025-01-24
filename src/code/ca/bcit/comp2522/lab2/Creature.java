@@ -30,7 +30,7 @@ class Creature
     {
         CURRENT_DATE = new Date(2025,
                                 1,
-                                19);
+                                23);
     }
 
     private final String name;
@@ -126,7 +126,7 @@ class Creature
      *
      * @return the name of the person as a String
      */
-    public String getName()
+    protected String getName()
     {
         return name;
     }
@@ -136,7 +136,7 @@ class Creature
      *
      * @return the date of birth as a {@link Date} object
      */
-    public Date getDateOfBirth()
+    protected Date getDateOfBirth()
     {
         return dateOfBirth;
     }
@@ -146,7 +146,7 @@ class Creature
      *
      * @return the health status as an integer value
      */
-    public int getHealth()
+    protected int getHealth()
     {
         return health;
     }
@@ -158,7 +158,7 @@ class Creature
      *
      * @param health the value to set health to
      */
-    public void setHealth(final int health)
+    protected void setHealth(final int health)
     {
         if(health != DEAD_HEALTH_LEVEL)
         {
@@ -172,7 +172,7 @@ class Creature
      *
      * @return boolean true if the creature is alive
      */
-    public boolean isAlive()
+    protected boolean isAlive()
     {
         return health > DEAD_HEALTH_LEVEL;
     }
@@ -182,7 +182,7 @@ class Creature
      *
      * @param damage the damage taken
      */
-    public void takeDamage(final int damage)
+    protected void takeDamage(final int damage)
     {
 
         if(damage < NOTHING)
@@ -202,7 +202,7 @@ class Creature
      *
      * @param healAmount the health received
      */
-    public void heal(final int healAmount)
+    protected void heal(final int healAmount)
     {
 
         if(healAmount < NOTHING)
@@ -222,7 +222,7 @@ class Creature
      *
      * @return the creature's age in years as an int
      */
-    public int getAgeYears()
+    protected int getAgeYears()
     {
         final int result;
 
@@ -243,7 +243,7 @@ class Creature
      *
      * Details include the name, date of birth, age, and health
      */
-    public void getDetails()
+    protected void getDetails()
     {
         StringBuilder details;
 

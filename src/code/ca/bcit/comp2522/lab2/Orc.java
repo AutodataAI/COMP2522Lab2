@@ -73,7 +73,7 @@ class Orc
      *
      * @return rage as an int.
      */
-    public int getRage()
+    protected int getRage()
     {
         return rage;
     }
@@ -85,7 +85,7 @@ class Orc
      *
      * @param rage the rage to set as an int.
      */
-    public void setRage(final int rage)
+    protected void setRage(final int rage)
     {
         validateRage(rage);
         this.rage = rage;
@@ -97,7 +97,7 @@ class Orc
      * Details include the name, date of birth, age, health, and rage.
      */
     @Override
-    public void getDetails()
+    protected void getDetails()
     {
         StringBuilder details;
 
@@ -130,11 +130,11 @@ class Orc
      *
      * @return the damage dealt
      */
-    public int berserk()
+    protected int berserk()
     {
         setRage(getRage() + RAGE_INCREMENT);
 
-        if (getRage() <= MIN_RAGE_FOR_ERROR)
+        if (getRage() < MIN_RAGE_FOR_ERROR)
         {
             throw new LowRageException("Rage value is below " + MIN_RAGE_FOR_ERROR);
         }

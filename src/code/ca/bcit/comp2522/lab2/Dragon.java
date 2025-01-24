@@ -56,7 +56,7 @@ class Dragon
      */
     private void validateFirePower(final int firePower)
     {
-        if(firePower <= MIN_FIRE_POWER || firePower >= MAX_FIRE_POWER)
+        if(firePower < MIN_FIRE_POWER || firePower > MAX_FIRE_POWER)
         {
             throw new IllegalArgumentException("Invalid fire power: " +
                                                firePower +
@@ -72,7 +72,7 @@ class Dragon
      *
      * @return firepower as an int.
      */
-    public int getFirePower()
+    protected int getFirePower()
     {
         return firePower;
     }
@@ -84,7 +84,7 @@ class Dragon
      *
      * @param firePower the firepower to set as an int.
      */
-    public void setFirePower(int firePower)
+    protected void setFirePower(int firePower)
     {
         validateFirePower(firePower);
         this.firePower = firePower;
@@ -96,7 +96,7 @@ class Dragon
      * Details include the name, date of birth, age, health, and firepower.
      */
     @Override
-    public void getDetails()
+    protected void getDetails()
     {
         StringBuilder sb;
         sb = new StringBuilder();
@@ -129,7 +129,7 @@ class Dragon
      * @return the damage done
      * @throws LowFirePowerException if mana is below FIRE_POWER_DECREMENT.
      */
-    public int beatheFire() throws
+    protected int breatheFire() throws
                             LowFirePowerException
     {
         if(firePower < FIRE_POWER_DECREMENT)
@@ -155,7 +155,7 @@ class Dragon
      * @throws IllegalArgumentException if amount
      *                                  isn't above MIN_FIRE_POWER.
      */
-    public final void restoreFirePower(int amount)
+    protected final void restoreFirePower(int amount)
     {
         if(amount < MIN_FIRE_POWER)
         {
