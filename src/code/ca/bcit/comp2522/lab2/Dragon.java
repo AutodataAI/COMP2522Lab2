@@ -13,42 +13,64 @@ package ca.bcit.comp2522.lab2;
  * @author Ted Ip
  * @version 1.0
  */
-public class Dragon extends Creature
+class Dragon
+        extends Creature
 {
-    private static final int FIRE_POWER_MIN = 0;
-    private static final int LOW_FIRE_POWER = 10;
+    private static final int MIN_FIRE_POWER = 0;
+    private static final int MAX_FIRE_POWER = 100;
+
+    private static final int DAMAGE_DECREMENT     = 20;
     private static final int FIRE_POWER_DECREMENT = 10;
-    private static final int DAMAGE_DECREMENT = 20;
-    private static final int MIN_FIRE_POWER_AMOUNT = 0;
-    private static final int MAX_FIRE_POWER_AMOUNT = 100;
 
     private int firePower;
 
     /**
      * Dragon Constructor.
+     * Has the same restrictions of the creature constructor with the addition firepower,
+     * which must be between MIN_FIRE_POWER and MAX_FIRE_POWER
      *
-     * @param name name of the dragon.
+     * @param name        name of the dragon.
      * @param dateOfBirth Dragon's date of birth.
-     * @param health Dragon's health level.
-     * @param firePower Dragon's firepower level.
+     * @param health      Dragon's health level.
+     * @param firePower   Dragon's firepower.
      */
-    public Dragon(String name,
-                  Date dateOfBirth,
-                  int health,
-                  int firePower)
+    Dragon(String name,
+           Date dateOfBirth,
+           int health,
+           int firePower)
     {
-        super(name, dateOfBirth, health);
+        super(name,
+              dateOfBirth,
+              health);
 
         validateFirePower(firePower);
-
 
         this.firePower = firePower;
     }
 
-    /**
-     * Getter for Fire Power
+    /*
+     * Validation method for firepower. Ensures firepower
+     * isn't below MIN_FIRE_POWER and isn't above MAX_FIRE_POWER.
      *
-     * @return the Fire Power of the Dragon as an int.
+     * @param firePower the firePower to check
+     */
+    private void validateFirePower(final int firePower)
+    {
+        if(firePower <= MIN_FIRE_POWER || firePower >= MAX_FIRE_POWER)
+        {
+            throw new IllegalArgumentException("Invalid fire power: " +
+                                               firePower +
+                                               ". Expected between " +
+                                               MIN_FIRE_POWER +
+                                               " and " +
+                                               MAX_FIRE_POWER);
+        }
+    }
+
+    /**
+     * Getter for firepower
+     *
+     * @return firepower as an int.
      */
     public int getFirePower()
     {
@@ -56,10 +78,11 @@ public class Dragon extends Creature
     }
 
     /**
-     * Setter for Fire Power. First validates Fire Power
-     * first before setting it.
+     * Setter for firepower.
+     * First validates firepower is between MIN_FIRE_POWER and MAX_FIRE_POWER
+     * before setting it.
      *
-     * @param firePower as an int.
+     * @param firePower the firepower to set as an int.
      */
     public void setFirePower(int firePower)
     {
@@ -68,98 +91,82 @@ public class Dragon extends Creature
     }
 
     /**
-     * Validation method for firepower. Ensures firepower
-     * isn't below 0 and isn't above 100.
-     */
-    private void validateFirePower(final int firePower)
-    {
-        if(firePower <= FIRE_POWER_MIN ||
-                firePower >= MAX_FIRE_POWER_AMOUNT)
-        {
-            throw new IllegalArgumentException("Invalid " +
-                    "fire power: " + firePower);
-        }
-    }
-
-    /**
-     * Concatenates a string of all the details of the Dragon.
-     * Overrides the getDetails method for creature and
-     * adds details about the firepower level.
+     * Prints a summary of the Dragon to the console,
+     * Including the Dragon's unique firepower value.
+     * Details include the name, date of birth, age, health, and firepower.
      */
     @Override
-    public final void getDetails()
+    public void getDetails()
     {
         StringBuilder sb;
         sb = new StringBuilder();
 
         sb.append("Dragon Details: ")
-                .append("\n\tName: ")
-                .append(this.getName())
-                .append("\n\tDate of Birth: ")
-                .append(this.getDateOfBirth().getYyyyMmDd())
-                .append("\n\tAge: ")
-                .append(this.getAgeYears())
-                .append("\n\tHealth: ")
-                .append(this.getHealth())
-                .append("\n\tFire Power: ")
-                .append(this.firePower);
+          .append("\n\tName: ")
+          .append(this.getName())
+          .append("\n\tDate of Birth: ")
+          .append(this.getDateOfBirth()
+                      .getYyyyMmDd())
+          .append("\n\tAge: ")
+          .append(this.getAgeYears())
+          .append("\n\tHealth: ")
+          .append(this.getHealth())
+          .append("\n\tFire Power: ")
+          .append(this.firePower);
 
         System.out.println(sb.toString());
     }
 
-    /*
-     * TODO: ask jason if this function should take a target
-     *  and call takeDamage in the function or return
-     * an int value to be used in the main function
-     * such as exElf.takeDamage(exDragon.breathFire())
-     */
     /**
-     * Method for the dragon to breathe fire. Argument is
-     * the creature to breathe the fire onto. Reduces
-     * firepower by 10 each time method is called, and
-     * deals 20 damage to the target creature.
+     * Breathes fire which deals damage and reduces firepower.
      *
-     * @param target the creature that is targeted
-     * @throws LowFirePowerException if firepower is below 10.
+     * <p>
+     * Damage done is equal to DAMAGE_DECREMENT.
+     * Firepower is decreased by FIRE_POWER_DECREMENT
+     * Throws an error if firepower is below FIRE_POWER_DECREMENT
+     * </p>
+     *
+     * @return the damage done
+     * @throws LowFirePowerException if mana is below FIRE_POWER_DECREMENT.
      */
-    public final void beatheFire(Creature target)
-            throws LowFirePowerException {
-        if (firePower < LOW_FIRE_POWER) {
-            throw new LowFirePowerException("Fire Power " +
-                    "is too low to breathe fire: " + firePower);
+    public int beatheFire() throws
+                            LowFirePowerException
+    {
+        if(firePower < FIRE_POWER_DECREMENT)
+        {
+            throw new LowFirePowerException("Low firepower: " +
+                                       firePower +
+                                       ". Must be above: " +
+                                       FIRE_POWER_DECREMENT);
         }
+
         firePower -= FIRE_POWER_DECREMENT;
-        target.takeDamage(DAMAGE_DECREMENT);
+        return DAMAGE_DECREMENT;
     }
 
-    //TODO: isn't this supposed add to the given firepower not set it?
-    //TODO: ask jason if firepower going above 100 is supposed to throw an error or just set it back to 100
     /**
-     * Method to restore the firepower levels. Checks first if
-     * Fire Power restoration amount is between 0 and 100, and
-     * the max total firepower of the dragon is 100 if the amount
-     * brings it over 100.
+     * Method to restore the firepower levels.
+     * <p>
+     * Firepower restoration amount must be above MINE_FIRE_POWER.
+     * Increases firepower without exceeding MAX_FIRE_POWER
+     * </p>
      *
      * @param amount the amount of firepower to restore.
-     * isn't between 0 and 100.
+     * @throws IllegalArgumentException if amount
+     *                                  isn't above MIN_FIRE_POWER.
      */
     public final void restoreFirePower(int amount)
     {
-        if(amount <= MIN_FIRE_POWER_AMOUNT ||
-           amount >= MAX_FIRE_POWER_AMOUNT)
+        if(amount < MIN_FIRE_POWER)
         {
-            throw new IllegalArgumentException("Fire Power " +
-                    "Restoration amount needs to be " +
-                    "between " + MIN_FIRE_POWER_AMOUNT +
-                    "and " + MAX_FIRE_POWER_AMOUNT + "." +
-                    amount);
+            throw new IllegalArgumentException("Invalid firepower to restore: " + amount + ". must be equal to or above: " + MIN_FIRE_POWER);
         }
 
         firePower += amount;
 
-        if (firePower > MAX_FIRE_POWER_AMOUNT)
+        if(firePower > MAX_FIRE_POWER)
         {
-            firePower = MAX_FIRE_POWER_AMOUNT;
+            firePower = MAX_FIRE_POWER;
         }
     }
 

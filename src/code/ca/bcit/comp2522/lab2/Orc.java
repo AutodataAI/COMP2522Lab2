@@ -10,15 +10,17 @@ package ca.bcit.comp2522.lab2;
  * @author Ted Ip
  * @version 1.0
  */
-class Orc extends Creature
+class Orc
+        extends Creature
 {
-    private static final int BASE_DAMAGE = 15;
-
     private static final int MAX_RAGE = 30;
     private static final int MIN_RAGE = 0;
 
-    private static final int BERSERK_RAGE_INCREASE     = 5;
+    private static final int MIN_RAGE_FOR_ERROR = 5;
+    private static final int RAGE_INCREMENT     = 5;
     private static final int MIN_RAGE_FOR_MULTIPLIER   = 21;
+
+    private static final int DAMAGE_DECREMENT = 15;
     private static final int BERSERK_DAMAGE_MULTIPLIER = 2;
 
     private int rage;
@@ -28,10 +30,10 @@ class Orc extends Creature
      * Uses Creature constructor and it's validations.
      * Rage must be a value between MIN_RAGE and MAX_RAGE
      *
-     * @param name the name of the Orc
+     * @param name        the name of the Orc
      * @param dateOFBirth the date of birth of the Orc
-     * @param health the initial health of the Orc
-     * @param rage the initial rage level of the Orc
+     * @param health      the initial health of the Orc
+     * @param rage        the initial rage level of the Orc
      */
     Orc(final String name,
         final Date dateOFBirth,
@@ -47,24 +49,29 @@ class Orc extends Creature
         this.rage = rage;
     }
 
-    /**
-     * Validates the given rage is between MIN_RAGE and MAX_RAGE,
-     * throws and exception if not
+    /*
+     * Validation method for rage.
+     * Ensures rage isn't below MIN_RAGE and isn't above MAX_RAGE.
      *
-     * @param rage teh rage to check
+     * @param rage the rage to check
      */
     private void validateRage(final int rage)
     {
         if(rage < MIN_RAGE || rage > MAX_RAGE)
         {
-            throw new IllegalArgumentException("rage must be between " + MIN_RAGE + " and " + MAX_RAGE);
+            throw new IllegalArgumentException("Invalid rage: " +
+                                               rage +
+                                               ". Expected between " +
+                                               MIN_RAGE +
+                                               " and " +
+                                               MAX_RAGE);
         }
     }
 
     /**
-     * Returns the rage level.
+     * Getter for rage.
      *
-     * @return the rage level as an int
+     * @return rage as an int.
      */
     public int getRage()
     {
@@ -72,22 +79,23 @@ class Orc extends Creature
     }
 
     /**
-     * Sets the rage to the specified value between MIN_RAGE and MAX_RAGE
-     * throws and exception if not
+     * Setter for rage.
+     * First validates rage is between MIN_RAGE and MAX_RAGE
+     * before setting the new value.
      *
-     * @param rage the rage to set to
+     * @param rage the rage to set as an int.
      */
-    public void setRage(int rage)
+    public void setRage(final int rage)
     {
         validateRage(rage);
         this.rage = rage;
     }
 
     /**
-     * Prints a summary of the Orc to the console, including the Orc's unique rage value
+     * Prints a summary of the Orc to the console,
+     * Including the Orc's unique rage value.
+     * Details include the name, date of birth, age, health, and rage.
      */
-    //TODO: ask jason if one should call the getter within the function or use the this. reference
-    //TODO: ask jason if one should use the this reference at all points one needs to access the instance variables
     @Override
     public void getDetails()
     {
@@ -96,32 +104,53 @@ class Orc extends Creature
         details = new StringBuilder();
 
         details.append("Orc Details:")
-            .append("\n\tName: ")
-            .append(this.getName())
-            .append("\n\tDate of Birth: ")
-            .append(this.getDateOfBirth().getYyyyMmDd())
-            .append("\n\tAge: ")
-            .append(this.getAgeYears())
-            .append("\n\tHealth: ")
-            .append(this.getHealth())
-            .append("\n\tRage: ")
-            .append(this.getRage());
+               .append("\n\tName: ")
+               .append(this.getName())
+               .append("\n\tDate of Birth: ")
+               .append(this.getDateOfBirth()
+                           .getYyyyMmDd())
+               .append("\n\tAge: ")
+               .append(this.getAgeYears())
+               .append("\n\tHealth: ")
+               .append(this.getHealth())
+               .append("\n\tRage: ")
+               .append(this.getRage());
 
         System.out.println(details.toString());
-    };
+    }
 
-    //TODO: finish function when I get back info on how to handle damage
     /**
-     * Deals BASE_DAMAGE damage.
-     * Deals BASE_DAMAGE * BESERK_DAMAGE_MULTIPLIER if rage is above MIN_RAGE_FOR_MULTIPLIER
+     * Attacks which deals damage and increases rage
+     *
+     * <p>
+     * Damage done is equal to DAMAGE_DECREMENT.
+     * Rage is increased by RAGE_INCREMENT
+     * Throws an error if rage is below MIN_RAGE_FOR_ERROR
+     * </p>
+     *
      * @return the damage dealt
      */
-    //TODO:throw exception on rage < 5
     public int berserk()
     {
-        setRage(getRage() + BERSERK_RAGE_INCREASE);
+        setRage(getRage() + RAGE_INCREMENT);
 
-        return (getRage() > MIN_RAGE_FOR_MULTIPLIER) ? BASE_DAMAGE : BASE_DAMAGE * BERSERK_DAMAGE_MULTIPLIER;
+        if (getRage() <= MIN_RAGE_FOR_ERROR)
+        {
+            throw new LowRageException("Rage value is below " + MIN_RAGE_FOR_ERROR);
+        }
+
+        final int damageDone;
+
+        if (getRage() > MIN_RAGE_FOR_MULTIPLIER)
+        {
+            damageDone = DAMAGE_DECREMENT * BERSERK_DAMAGE_MULTIPLIER;
+        }
+        else
+        {
+            damageDone = DAMAGE_DECREMENT;
+        }
+
+        return  damageDone;
 
     }
 }

@@ -13,41 +13,57 @@ package ca.bcit.comp2522.lab2;
  * @author Ted Ip
  * @version 1.0
  */
-public class Elf extends Creature
+class Elf
+        extends Creature
 {
-    private static final int MANA_MIN = 0;
-    private static final int MANA_MAX = 50;
+    private static final int MIN_MANA = 0;
+    private static final int MAX_MANA = 50;
+
     private static final int DAMAGE_DECREMENT = 10;
-    private static final int MANA_DECREMENT = 5;
-    private static final int LOW_MANA = 5;
-    private static final int MIN_MANA_AMOUNT = 0;
-    private static final int MAX_MANA_AMOUNT = 50;
+    private static final int MANA_DECREMENT   = 5;
 
     public int mana;
 
-    public Elf(String name,
-               Date dateOfBirth,
-               int health,
-               int mana)
+    /**
+     * Elf Constructor.
+     * Has the same restrictions of the creature constructor with the addition mana,
+     * which must be between MIN_MANA and MAX_MANA
+     *
+     * @param name        name of the elf.
+     * @param dateOfBirth Elf's date of birth.
+     * @param health      Elf's health level.
+     * @param mana        Elf's mana.
+     */
+    Elf(String name,
+        Date dateOfBirth,
+        int health,
+        int mana)
     {
-        super(name, dateOfBirth, health);
+        super(name,
+              dateOfBirth,
+              health);
+
         validateMana(mana);
+
         this.mana = mana;
     }
 
-
-    /**
-     * Validation method for Mana. Ensures firepower
-     * isn't below 0 and isn't above 50.
-     * out of required range.
+    /*
+     * Validation method for mana.
+     * Ensures mana isn't below MIN_MANA and isn't above MAX_MANA.
+     *
+     * @param mana the mana to check
      */
     private void validateMana(final int mana)
     {
-        if(mana <= MANA_MIN ||
-                mana >= MANA_MAX)
+        if(mana <= MIN_MANA || mana >= MAX_MANA)
         {
-            throw new IllegalArgumentException("Invalid " +
-                    "mana: " + mana);
+            throw new IllegalArgumentException("Invalid mana: " +
+                                               mana +
+                                               ". Expected between " +
+                                               MIN_MANA +
+                                               " and " +
+                                               MAX_MANA);
         }
     }
 
@@ -62,88 +78,98 @@ public class Elf extends Creature
     }
 
     /**
-     * Setter for Mana. First validates Mana before
-     * setting the new value.
+     * Setter for mana.
+     * First validates mana is between MIN_MANA and MAX_MANA
+     * before setting the new value.
      *
-     * @param mana of the Elf as an int.
+     * @param mana the mana to set as an int.
      */
-    public void setMana(int mana)
+    public void setMana(final int mana)
     {
         validateMana(mana);
         this.mana = mana;
     }
 
     /**
-     * Concatenates a string of all the details of the Elf.
-     * Overrides the getDetails method for creature and
-     * adds details about the mana level.
+     * Prints a summary of the Elf to the console,
+     * Including the Elf's unique mana value.
+     * Details include the name, date of birth, age, health, and mana.
      */
     @Override
-    public final void getDetails()
+    public void getDetails()
     {
         StringBuilder sb;
         sb = new StringBuilder();
 
         sb.append("Elf Details: ")
-                .append("\n\tName: ")
-                .append(this.getName())
-                .append("\n\tDate of Birth: ")
-                .append(this.getDateOfBirth().getYyyyMmDd())
-                .append("\n\tAge: ")
-                .append(this.getAgeYears())
-                .append("\n\tHealth: ")
-                .append(this.getHealth())
-                .append("\n\tMana: ")
-                .append(this.mana);
+          .append("\n\tName: ")
+          .append(this.getName())
+          .append("\n\tDate of Birth: ")
+          .append(this.getDateOfBirth()
+                      .getYyyyMmDd())
+          .append("\n\tAge: ")
+          .append(this.getAgeYears())
+          .append("\n\tHealth: ")
+          .append(this.getHealth())
+          .append("\n\tMana: ")
+          .append(this.mana);
 
         System.out.println(sb.toString());
     }
 
     /**
-     * Method for the Elf to cast a spell. Argument is
-     * the creature to cast the spell onto. Reduces
-     * mana by 5 each time method is called, and
-     * deals 10 damage to the target creature.
+     * Casts a spell which deals damage and reduces mana.
      *
-     * @param target the creature that is targeted
-     * @throws LowManaException if mana is below 5.
+     * <p>
+     * Damage done is equal to DAMAGE_DECREMENT.
+     * Mana is decreased by MANA_DECREMENT
+     * Throws an error if mana is below MANA_DECREMENT
+     * </p>
+     *
+     * @return the damage done
+     * @throws LowManaException if mana is below MANA_DECREMENT.
      */
-    public final void castSpell(Creature target)
-            throws LowManaException
+    public int castSpell() throws
+                           LowManaException
     {
-        if (mana < LOW_MANA) {
-            throw new LowManaException("Mana " +
-                    "is too low to cast spell: " + mana);
+        if(mana < MANA_DECREMENT)
+        {
+            throw new LowManaException("Low mana: " +
+                                       mana +
+                                       ". Must be above: " +
+                                       MANA_DECREMENT);
         }
+
         mana -= MANA_DECREMENT;
-        target.takeDamage(DAMAGE_DECREMENT);
+        return DAMAGE_DECREMENT;
     }
 
     /**
-     * Method to restore the mana levels. Checks first if
-     * Mana restoration amount is between 0 and 50, and
-     * the max total mana of the Elf is 50 if the amount
-     * brings it over 50.
+     * Method to restore the mana levels.
+     * <p>
+     * Mana restoration amount must be above MIN_MANA.
+     * Increases mana without exceeding MAX_MANA
+     * </p>
      *
      * @param amount the amount of mana to restore.
-     * @throws IllegalArgumentException if amount to restore
-     * isn't between 0 and 50.
+     * @throws IllegalArgumentException if amount
+     *                                  isn't above MIN_MANA.
      */
-    public final void restoreMana(int amount)
+    public void restoreMana(int amount)
     {
-        if(amount <= MIN_MANA_AMOUNT ||
-                amount >= MAX_MANA_AMOUNT)
+        if(amount < MIN_MANA)
         {
-            throw new IllegalArgumentException("Mana " +
-                    "Restoration amount needs to be " +
-                    "between 0 and 50: " + amount);
+            throw new IllegalArgumentException("Invalid mana to restore: " +
+                                               amount +
+                                               ". must be equal to or above: " +
+                                               MIN_MANA);
         }
 
         mana += amount;
 
-        if (mana > MAX_MANA_AMOUNT)
+        if(mana > MAX_MANA)
         {
-            mana = MAX_MANA_AMOUNT;
+            mana = MAX_MANA;
         }
     }
 
